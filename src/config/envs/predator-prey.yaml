@@ -1,0 +1,24 @@
+env: grid
+
+env_args:
+  scenario_name: predator-prey
+  map_size: 10
+  num_agents: 6
+  num_preys: 2
+  num_adversaries: 4
+  num_searchers: 2
+  predators_obs_range: 1
+  searcher_comm_range: 3
+  episode_length: 50
+
+test_greedy: True
+test_nepisode: 32
+test_interval: 1000
+log_interval: 1000
+runner_log_interval: 1000
+learner_log_interval: 1000
+t_max: 200000
+render: True
+save_gifs: True
+render_episodes: 1
+render_interval: 500
