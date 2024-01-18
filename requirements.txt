@@ -48,3 +48,4 @@ whichcraft==0.5.2
 wrapt==1.10.11
 git+https://github.com/oxwhirl/smac.git
 gym == 0.18
+magym
