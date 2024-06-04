@@ -40,15 +40,14 @@ They are all located in `src/config`.
 `--config` refers to the config files in `src/config/algs`
 `--env-config` refers to the config files in `src/config/envs`
 
-SMAC maps can be found in src/smac_plus/sc2_maps/.
-
 All results will be stored in the `Results` folder.
+
 ## Results
 
-Our model achieves the following performance on :
+Our model achieves the following performance on Predator-Prey:
 
 ![image](fig.png)
 ## Contributing
 
-This codebase is based on  [PyMARL](https://github.com/oxwhirl/pymarl) and [SMAC](https://github.com/oxwhirl/smac) codebases which are open-sourced.
+This codebase is based on  [PyMARL](https://github.com/oxwhirl/pymarl) codebases which are open-sourced.
 
