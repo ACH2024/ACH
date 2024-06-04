@@ -43,7 +43,7 @@ All results will be stored in the `Results` folder.
 
 Our model achieves the following performance on :
 
-![image](fig1.png)
+![image](fig.png)
 ## Contributing
 
 This codebase is based on  [PyMARL](https://github.com/oxwhirl/pymarl) and [SMAC](https://github.com/oxwhirl/smac) codebases which are open-sourced.
