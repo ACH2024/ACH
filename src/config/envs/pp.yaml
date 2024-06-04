@@ -1,0 +1,24 @@
+env: pp
+
+env_args:
+  num_searchers: 2
+  num_predators: 4
+  num_preys: 2
+  map_size: 10
+  predators_obs_range: 1
+  searcher_comm_range: 3
+  episode_length: 50
+  prey_capture_reward: 20
+  obs_last_action: False
+  state_last_action: False
+  print_rew: False
+  is_print: False
+  print_steps: 1000
+
+learner_log_interval: 1000
+log_interval: 1000
+runner_log_interval: 1000
+t_max: 250000
+test_interval: 1000
+test_nepisode: 100
+test_greedy: True

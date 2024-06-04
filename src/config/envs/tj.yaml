@@ -1,0 +1,21 @@
+env: tj
+
+env_args:
+  num_agents: 10
+  map_size: 14
+  collision_reward: -10
+  full_observable: False
+  max_steps: 50
+  obs_last_action: False
+  state_last_action: False
+  print_rew: False
+  is_print: False
+  print_steps: 1000
+
+learner_log_interval: 1000
+log_interval: 1000
+runner_log_interval: 1000
+t_max: 205000
+test_interval: 1000
+test_nepisode: 100
+test_greedy: True

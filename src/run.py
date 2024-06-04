@@ -15,6 +15,8 @@ from controllers import REGISTRY as mac_REGISTRY
 from components.episode_buffer import ReplayBuffer
 from components.transforms import OneHot
 
+import shutil
+
 
 def run(_run, _config, _log):
     # check args sanity
@@ -33,7 +35,18 @@ def run(_run, _config, _log):
     _log.info("\n\n" + experiment_params + "\n")
 
     # configure tensorboard logger
-    unique_token = "{}__{}".format(args.name, datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
+    if 'map_name' in args.env_args:
+        unique_token = "{}__{}__{}".format(
+            args.name,
+            datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"),
+            args.env_args['map_name']
+        )
+    else:
+        unique_token = "{}__{}__{}".format(
+            args.name,
+            datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"),
+            args.env
+        )
     args.unique_token = unique_token
     if args.use_tensorboard:
         tb_logs_direc = os.path.join(dirname(dirname(abspath(__file__))), "results", "tb_logs")
@@ -58,13 +71,26 @@ def run(_run, _config, _log):
 
     print("Exiting script")
 
-    # Making sure framework really exits
-    # os._exit(os.EX_OK)
-
 
 def evaluate_sequential(args, runner):
-    for _ in range(args.test_nepisode):
-        runner.run(test_mode=True)
+    if args.test_is_cut:
+        if args.test_is_cut_prob:
+            print('mu thres:', 0.)
+            for _ in range(args.test_nepisode):
+                runner.run(test_mode=True, thres=0., is_clean=(_ == 0))
+            thres = args.test_cut_prob_thres
+            for prob in args.test_cut_prob_list:
+                print('mu+prob thres:', thres, prob)
+                for _ in range(args.test_nepisode):
+                    runner.run(test_mode=True, thres=thres, prob=prob, is_clean=(_ == 0))
+        else:
+            for thres in args.test_cut_list:
+                print('mu thres:', thres)
+                for _ in range(args.test_nepisode):
+                    runner.run(test_mode=True, thres=thres, is_clean=(_ == 0))
+    else:
+        for _ in range(args.test_nepisode):
+            runner.run(test_mode=True)
 
     if args.save_replay:
         runner.save_replay()
@@ -75,7 +101,7 @@ def evaluate_sequential(args, runner):
 def run_sequential(args, logger):
     # Init runner so we can get env info
     runner = r_REGISTRY[args.runner](args=args, logger=logger)
-    runner.init_f_i()
+
     # Set up schemes and groups here
     env_info = runner.get_env_info()
     args.n_agents = env_info["n_agents"]
@@ -130,22 +156,39 @@ def run_sequential(args, logger):
             if os.path.isdir(full_name) and name.isdigit():
                 timesteps.append(int(name))
 
-        if args.load_step == 0:
-            # choose the max timestep
-            timestep_to_load = max(timesteps)
+        timesteps.sort()
+
+        if args.make_message_distribution_video and args.draw_message_distributions:
+            save_dir = args.checkpoint_path.replace('models', 'plots')
+            if os.path.exists(save_dir):
+                shutil.rmtree(save_dir)
+            os.mkdir(save_dir)
+
+            for timestep in timesteps:
+                model_path = os.path.join(args.checkpoint_path, str(timestep))
+
+                logger.console_logger.info("Loading model from {}".format(model_path))
+                learner.load_models(model_path)
+                args.loaded_model_ts = timestep
+
+                episode_batch = runner.run(test_mode=False)
         else:
-            # choose the timestep closest to load_step
-            timestep_to_load = min(timesteps, key=lambda x: abs(x - args.load_step))
+            if args.load_step == 0:
+                # choose the max timestep
+                timestep_to_load = max(timesteps)
+            else:
+                # choose the timestep closest to load_step
+                timestep_to_load = min(timesteps, key=lambda x: abs(x - args.load_step))
 
-        model_path = os.path.join(args.checkpoint_path, str(timestep_to_load))
+            model_path = os.path.join(args.checkpoint_path, str(timestep_to_load))
 
-        logger.console_logger.info("Loading model from {}".format(model_path))
-        learner.load_models(model_path)
-        runner.t_env = timestep_to_load
+            logger.console_logger.info("Loading model from {}".format(model_path))
+            learner.load_models(model_path)
+            runner.t_env = timestep_to_load
 
-        if args.evaluate or args.save_replay:
-            evaluate_sequential(args, runner)
-            return
+            if args.evaluate or args.save_replay:
+                evaluate_sequential(args, runner)
+                return
 
     # start training
     episode = 0
@@ -162,6 +205,10 @@ def run_sequential(args, logger):
 
         # Run for a whole episode at a time
         episode_batch = runner.run(test_mode=False)
+
+        if args.draw_message_distributions:
+            return
+
         buffer.insert_episode_batch(episode_batch)
 
         if buffer.can_sample(args.batch_size):
@@ -186,8 +233,14 @@ def run_sequential(args, logger):
             last_time = time.time()
 
             last_test_T = runner.t_env
-            for _ in range(n_test_runs):
-                runner.run(test_mode=True)
+            '''
+			for i in range(6):
+				for _ in range(n_test_runs):
+					runner.run(test_mode=True, thres=i * 20.)
+			'''
+            for i in [90., 95., 98.]:
+                for _ in range(n_test_runs):
+                    runner.run(test_mode=True, thres=i)
 
         if args.save_model and (runner.t_env - model_save_time >= args.save_model_interval or model_save_time == 0):
             model_save_time = runner.t_env
@@ -199,8 +252,6 @@ def run_sequential(args, logger):
             # learner should handle saving/loading -- delegate actor save/load to mac,
             # use appropriate filenames to do critics, optimizer states
             learner.save_models(save_path)
-        if runner.t_env > 0.9 * args.t_max and (runner.t_env-last_test_T) / args.render_interval >= 1.0 and args.render:
-            runner.render()
 
         episode += args.batch_size_run
 

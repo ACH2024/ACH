@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
-from modules.sc_module.CrossAtt import CrossAtt
+from modules.ach_module.CrossAtt import CrossAtt
+from modules.ach_module.sc_att import SelfAttention
 
 
 class P_Agent(nn.Module):
@@ -11,7 +12,7 @@ class P_Agent(nn.Module):
         self.fc1 = nn.Linear(input_shape, args.rnn_hidden_dim)
         self.rnn = nn.GRUCell(args.rnn_hidden_dim, args.rnn_hidden_dim)
         if args.sc_mode == "att":
-            self.att = CrossAtt(args)
+            self.att = SelfAttention(args)
         self.fc2 = nn.Linear(args.rnn_hidden_dim, args.n_actions)
 
     def init_hidden(self):
@@ -27,5 +28,6 @@ class P_Agent(nn.Module):
 
         h_att = h + att_out.reshape(-1, self.args.rnn_hidden_dim)
         q = self.fc2(h_att)
+
         return q, h, alpha
 

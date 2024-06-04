@@ -27,4 +27,3 @@ class RNNAgent(nn.Module):
         h_in = hidden_state.reshape(-1, self.args.rnn_hidden_dim)
         h = self.rnn(x, h_in)
         return h
-

@@ -353,7 +353,7 @@ class TrafficJunction(gym.Env):
                 self._agents_routes[agent_to_enter] = random.randint(1, self._n_routes)  # (1, 3)
                 self.__update_agent_view(agent_to_enter)
 
-        return self.get_agent_obs(), rewards, self._agent_dones, {'step_collisions': step_collisions}
+        return self.get_agent_obs(), sum(rewards), all(self._agent_dones), {'step_collisions': step_collisions}
 
     def __get_next_direction(self, route, agent_i):
         """
@@ -426,6 +426,25 @@ class TrafficJunction(gym.Env):
             self.__update_agent_view(agent_i)
 
         return False
+
+    def get_avail_actions(self):
+        return [[1, 1] for _ in range(self.n_agents)]
+
+    def get_obs(self):
+        return self.get_agent_obs()
+
+    def get_state(self):
+        state = np.vstack(self.get_agent_obs()).flatten()
+        return state
+
+    def get_stats(self):
+        state = np.vstack(self.get_agent_obs()).flatten()
+        return state
+
+    def get_env_info(self):
+        env_info = {"n_agents": self.n_agents, "n_actions": 2, "state_shape": 135*10,
+                    "obs_shape": 135, "episode_limit": self._max_steps}
+        return env_info
 
     def reset(self):
         """

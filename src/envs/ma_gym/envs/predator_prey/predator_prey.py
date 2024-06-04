@@ -37,7 +37,7 @@ class PredatorPrey(gym.Env):
     """
     metadata = {'render.modes': ['human', 'rgb_array']}
 
-    def __init__(self, args, grid_shape=(5, 5), n_agents=2, n_preys=1, prey_move_probs=(0.175, 0.175, 0.175, 0.175, 0.3),
+    def __init__(self, grid_shape=(5, 5), n_agents=2, n_preys=1, prey_move_probs=(0.175, 0.175, 0.175, 0.175, 0.3),
                  full_observable=False, penalty=-0.5, step_cost=-0.01, prey_capture_reward=20, max_steps=100,
                  agent_view_mask=(5, 5), obs_range=2, n_searchers=1, n_predators=2, comm_range=3):
         assert len(grid_shape) == 2, 'expected a tuple of size 2 for grid_shape, but found {}'.format(grid_shape)
@@ -368,7 +368,7 @@ class PredatorPrey(gym.Env):
                         "behavior."
                     )
                 self._steps_beyond_done += 1
-        return self.get_agent_obs(), sum(rewards), self._agent_dones, {"ep_length": 0}
+        return self.get_agent_obs(), sum(rewards), all(self._agent_dones), {"ep_length": 0}
 
     def __get_neighbour_coordinates(self, pos):
         neighbours = []
@@ -433,6 +433,10 @@ class PredatorPrey(gym.Env):
         return env_info
 
     def get_state(self):
+        state = self.get_agent_obs()
+        return sum(state, [])
+
+    def get_stats(self):
         state = self.get_agent_obs()
         return sum(state, [])
 

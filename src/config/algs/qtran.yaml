@@ -20,6 +20,8 @@ double_q: True
 mixer: "qtran_base"
 mixing_embed_dim: 64
 qtran_arch: "qtran_paper"
+mac: "basic_mac"
+agent: "rnn"
 
 opt_loss: 1
 nopt_min_loss: 0.1
