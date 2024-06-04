@@ -44,7 +44,7 @@ All results will be stored in the `Results` folder.
 
 ## Results
 
-Our model achieves the following performance:
+Our method achieves the following performance:
 
 ![image](fig.png)
 
