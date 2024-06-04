@@ -1,9 +1,13 @@
 # ACH: Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning
 
+<<<<<<< HEAD
 ## Note
  This codebase is based on  [PyMARL](https://github.com/oxwhirl/pymarl) and [SMAC](https://github.com/oxwhirl/smac) codebases which are open-sourced.
 
 The implementation of the following methods can also be found in this codebase, which are finished by the authors of [PyMARL](https://github.com/oxwhirl/pymarl):
+=======
+Code for **Adaptive Communication-Based Multi-Agent Reinforcement Learning for Heterogeneous Agent Cooperation**. ACH is implemented in PyTorch and tested on the SPP tasks, which is based on [PyMARL](https://github.com/oxwhirl/pymarl).
+>>>>>>> 319872aad09a34de41bd354a1423acea1858d8d9
 
 
 Build the Dockerfile using 
