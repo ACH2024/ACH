@@ -10,23 +10,27 @@ cd docker
 bash build.sh
 ```
 
-Set up StarCraft II and SMAC:
-```shell
-bash install_sc2.sh
-```
-
-This will download SC2 into the 3rdparty folder and copy the maps necessary to run over.
-
-The requirements.txt file can be used to install the necessary packages into a virtual environment (not recomended).
+The requirements.txt file can be used to install the necessary packages into a virtual environment.
 
 ## Training
 
-The following command train ACH 
+The following command train ACH on Predator-Prey
 
 ```shell
 python3 src/main.py 
 --config=ach
 --env-config=pp
+with
+batch_size_run=16
+runner="parallel_pp"
+```
+
+The following command train ACH on Traiffic Junction
+
+```shell
+python3 src/main.py 
+--config=ach
+--env-config=tj
 with
 batch_size_run=16
 runner="parallel_pp"
