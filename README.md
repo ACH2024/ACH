@@ -1,5 +1,5 @@
 # ACH: Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning
-Code for **Adaptive Communication-Based Multi-Agent Reinforcement Learning for Heterogeneous Agent Cooperation**. ACH is implemented in PyTorch and tested on the SPP tasks, which is based on [PyMARL](https://github.com/oxwhirl/pymarl).
+Code for **Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning**. ACH is implemented in PyTorch and tested on the Predator-Prey, and Traffic Junction tasks, which is based on [PyMARL](https://github.com/oxwhirl/pymarl).
 
 
 ## Note
