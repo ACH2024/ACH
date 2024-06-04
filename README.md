@@ -1,6 +1,6 @@
 # ACH: Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning
 
-This repository is the official implementation of [ACH: Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2030.12345). 
+This repository is the official implementation of [ACH: Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning]. 
 
 ## Requirements
 
