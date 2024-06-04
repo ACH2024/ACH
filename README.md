@@ -47,6 +47,9 @@ All results will be stored in the `Results` folder.
 Our model achieves the following performance on Predator-Prey:
 
 ![image](fig.png)
+
+More results and details is presented in our paper Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning.
+
 ## Contributing
 
 This codebase is based on  [PyMARL](https://github.com/oxwhirl/pymarl) codebases which are open-sourced.
