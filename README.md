@@ -45,10 +45,11 @@ All results will be stored in the `Results` folder.
 ## Results
 
 Our model achieves the following performance on Predator-Prey:
+Results on a Predator-Prey task where our methods are compared with SOTA comm-MARL approaches.
 
 ![image](fig.png)
 
-More results and details is presented in our paper Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning.
+More results and details are presented in our paper Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning.
 
 ## Contributing
 
