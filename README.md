@@ -1,6 +1,6 @@
 # ACH: Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning
 
-This repository is the official implementation of ACH: Adaptive Communication in Heterogeneous Multi-Agent Reinforcement Learning. 
+This repository is the official implementation of ACH, short for Adaptive Comm-MARL framework for Heterogeneous multi-agent multi-subgoal cooperation. 
 
 ## Requirements
 
@@ -44,7 +44,7 @@ All results will be stored in the `Results` folder.
 
 ## Results
 
-Our model achieves the following performance on Predator-Prey:
+Our model achieves the following performance:
 
 Results on a Predator-Prey task where our methods are compared with SOTA comm-MARL approaches.
 
