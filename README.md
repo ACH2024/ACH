@@ -45,6 +45,7 @@ All results will be stored in the `Results` folder.
 ## Results
 
 Our model achieves the following performance on Predator-Prey:
+
 Results on a Predator-Prey task where our methods are compared with SOTA comm-MARL approaches.
 
 ![image](fig.png)
